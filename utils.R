@@ -1,5 +1,5 @@
 toDisplayName <- function(name){
-  trimws(paste(rev(unlist(strsplit(name, ", "))), collapse = " "))
+  trimws(paste(rev(unlist(strsplit(as.character(name), ", "))), collapse = " "))
 }
 
 mapValues <- function(l, dict){
@@ -20,4 +20,13 @@ writeToFile <- function(x, f="summary.txt"){
   options(max.print=oldMaxPrint)
   sink()
   f
+}
+
+gsubs <- function(matches, replaces, x){
+  if (length(matches) != length(replaces)) stop("Matches must equal replaces in length")
+  out <- x
+  for (idx in 1:length(matches)){
+    out <- gsub(matches[idx], replaces[idx], out)
+  }
+  return(out)
 }
