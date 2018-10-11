@@ -25,7 +25,8 @@ history <- getLatestHistory()
 Usage:
 ```
 # Must provide a WEEKS_ID. 
-# I don't have an easy way to get it other than log in to the contestand heck the api request sent to api.draftkings.com (e.g. Request URL: https://api.draftkings.com/draftgroups/v1/21720?format=json)
+# Log in to contest and check the provided by `Export to CSV`
+# (e.g. Download URL: https://www.draftkings.com/lineup/getavailableplayerscsv?contestTypeId=21&draftGroupId=21720)
 
 WEEKS_ID = 21720
 

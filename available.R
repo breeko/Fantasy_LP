@@ -31,11 +31,14 @@ getLatestAvailable <- function(weeksId){
   return(as.data.frame(availablePlayers))
 }
 
-availableToHistory <- function(a, week, year){
+availableToHistory <- function(a, week, year, history=NULL){
   out <- c()
   out$displayName <- unlist(lapply(a$name, function(x){mapOrDefault(x, availableToHistoryName, x)}))
-  out$displayName <- unlist(lapply(out$displayName, function(x){softMatch(x, unique(out$displayName))}))
-  out$week <- week
+  if (!is.null(history$displayName)){
+    out$displayName <- unlist(lapply(out$displayName, function(x){softMatch(x, unique(history$displayName))}))
+  }
+  out$week <- as.factor(week)
+  out$year <- as.factor(year)
   out$pos <- unlist(lapply(a$position, function(x){mapOrDefault(x,availableToHistoryPosition, x)}))
   out$team <- unlist(lapply(a$teamabbrev, function(x){mapOrDefault(x, availableToHistoryTeam)}))
   out$oppt <- unlist(mapply(getOpp, a$game.info, a$team))
@@ -52,8 +55,12 @@ getOpp <- function(info, otherTeam){
   setdiff(teams, otherTeam)
 }
 
-getHomeAway <- function(info, otherTeam){
+getHomeAway <- function(info, team){
+  # Returns h or a to represent home or away from string [TEAM] @ [TEAM], defaults to h
+  # e.g. f("DEN @ NJG", "DEN") => "h"
   home <- strsplit(gsub(" .*", "", info),"@")[[1]][2]
-  if (home == otherTeam) "h" else "a"
+  if (!is.na(home)){
+    if (home == team) return("h") else return("a")
+  }
+  return("h")
 }
-

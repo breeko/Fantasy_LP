@@ -95,13 +95,17 @@ mapOrDefault <- function(x, mappings, default=NA) {
 }
 
 softMatch <- function(x, possible){
-  if (x %in% possible) {
-    x
-  } else {
-    alt <- gsub(" [I|V]+$", "", x)
-    alt <- gsub(" $", "", alt)
-    if (alt %in% possible) alt else x 
+  if (!(x %in% possible)) {
+    matches <- c(" [I|V]+$", " $", " Jr\\.", " Sr\\.", "\\.")
+    replaces <- rep("", length(matches))
+    alt <- gsubs(matches, replaces, x)
+    if (alt %in% possible) {
+      return(alt)}
+    altPossible <- gsubs(matches, replaces, possible)
+    names(possible) <- unlist(altPossible)
+    if (x %in% names(possible)) {
+      return(as.character(possible[x]))
+    }
   }
+  return(x)
 }
-
-

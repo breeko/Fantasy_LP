@@ -14,12 +14,15 @@ solve <- function(a, budget=50000) {
       a$pos == "TE",
       a$pos == "Def",
       a$pos %in% c("TE", "WR", "RB"),
+      a$pos %in% c("WR", "RB"),
+      a$pos %in% c("TE", "RB"),
+      a$pos %in% c("TE", "WR"),
       a$salary
-    ), nrow=7, byrow=TRUE
+    ), nrow=10, byrow=TRUE
   )
-  
-  f.dir <- rep("<=", 7)
-  f.rhs <- c(1, 3, 4, 2, 1, 7, budget)
+  # QB: 1 RB: 2, WR: 3, TE: 1, Def: 1 FLEX: 1
+  f.dir <- rep("<=", 10)
+  f.rhs <- c(1, 3, 4, 2, 1, 7, 6, 5, 5, budget)
   sol <- lp("max", f.obj, f.con, f.dir, f.rhs, all.bin = T)
   
   print(a[which(sol$solution==1),])

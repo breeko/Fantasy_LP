@@ -11,7 +11,7 @@ getLatestHistory <- function(f=LATEST_HISTORY_FILE){
 }
 
 saveHistory <- function(h, f=LATEST_HISTORY_FILE){
-  write.csv(h, f)
+  write.csv(h, f, row.names = F)
 }
 
 downloadHistoric <- function(url){
@@ -29,8 +29,8 @@ updateHistory <- function(h = data.frame()){
     maxYear <- minNumYear - 1
     maxWeek <- maxNumWeeks
   } else {
-    maxYear <- max(out$year)
-    maxWeek <- max(out[out$year == maxYear,]$week)
+    maxYear <- max(out$Year)
+    maxWeek <- max(out[out$Year == maxYear,]$Week)
   }
   curYear <- maxYear
   curWeek <- maxWeek
@@ -41,11 +41,7 @@ updateHistory <- function(h = data.frame()){
     print(curUrl)
     curHistory <- downloadHistoric(curUrl)
     if (nrow(curHistory) == 0) break
-    if (nrow(out) == 0){
-      out <- curHistory
-    } else{
-      out <- rbind(out, curHistory)
-    }
+    out <- rbind(out, curHistory)
   }
   return(out)
 }
