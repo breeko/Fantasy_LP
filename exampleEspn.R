@@ -1,11 +1,8 @@
-setwd("~/Documents/draftkings/")
 source("espn.R")
 source("utils.R")
 source("history.R")
 source("available.R")
 source("solve.R")
-
-library("ggplot2")
 
 # HISTORIC ANALYSIS OF ESPN SCORES
 
