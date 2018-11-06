@@ -30,3 +30,10 @@ gsubs <- function(matches, replaces, x){
   }
   return(out)
 }
+
+convertToNumeric <- function(df){
+  options(warn = -1)
+  out <- data.frame(lapply(df, function(x) if(!any(is.na(as.numeric(x)))) as.numeric(x) else x))
+  options(warm = 0)
+  return(out)
+}

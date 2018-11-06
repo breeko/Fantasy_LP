@@ -31,14 +31,12 @@ getLatestAvailable <- function(weeksId){
   return(as.data.frame(availablePlayers))
 }
 
-availableToHistory <- function(a, week, year, history=NULL){
+availableToHistory <- function(a, week, year, displayNames=NULL){
   out <- c()
   out$displayName <- unlist(lapply(a$name, function(x){mapOrDefault(x, availableToHistoryName, x)}))
-  if (!is.null(history$displayName)){
-    out$displayName <- unlist(lapply(out$displayName, function(x){softMatch(x, unique(history$displayName))}))
+  if (!is.null(displayNames)){
+    out$displayName <- unlist(lapply(out$displayName, function(x){softMatch(x, unique(displayNames))}))
   }
-  out$week <- as.factor(week)
-  out$year <- as.factor(year)
   out$pos <- unlist(lapply(a$position, function(x){mapOrDefault(x,availableToHistoryPosition, x)}))
   out$team <- unlist(lapply(a$teamabbrev, function(x){mapOrDefault(x, availableToHistoryTeam)}))
   out$oppt <- unlist(mapply(getOpp, a$game.info, a$team))

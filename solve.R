@@ -1,6 +1,6 @@
 library(lpSolve)
 
-solve <- function(a, budget=50000) {
+solve <- function(a, budget=50000, verbose=T) {
   # Must have prediction, pos and salary
   requiredFields <- c("prediction", "pos", "salary")
   if (!all(requiredFields %in% names(a))) {
@@ -24,7 +24,6 @@ solve <- function(a, budget=50000) {
   f.dir <- rep("<=", 10)
   f.rhs <- c(1, 3, 4, 2, 1, 7, 6, 5, 5, budget)
   sol <- lp("max", f.obj, f.con, f.dir, f.rhs, all.bin = T)
-  
-  print(a[which(sol$solution==1),])
+  if (verbose) print(a[which(sol$solution==1),])
   return(sol)
 }

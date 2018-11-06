@@ -107,5 +107,5 @@ softMatch <- function(x, possible){
       return(as.character(possible[x]))
     }
   }
-  return(x)
+  return(as.character(x))
 }
